@@ -3,7 +3,7 @@ import {
   ImageContainer,
   ProductContainer,
   ProductDetails,
-} from "../styles/pages/products";
+} from "../../styles/pages/products";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { stripe } from "../../lib/stripe";
 import Stripe from "stripe";

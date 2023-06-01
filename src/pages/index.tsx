@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import { useKeenSlider } from "keen-slider/react";
 
-import { HomeContainer, Product } from "./styles/pages/home";
+import { HomeContainer, Product } from "../styles/pages/home";
 
 import camiseta1 from "../assets/camisetas/1.png";
 import camiseta2 from "../assets/camisetas/2.png";
