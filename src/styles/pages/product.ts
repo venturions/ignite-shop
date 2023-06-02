@@ -6,12 +6,12 @@ export const ProductContainer = styled("main", {
   alignItems: "stretch",
   gap: "4rem",
 
-  maxWidth: 1180,
+  maxWidth: 1440,
   margin: "0 auto",
 });
 export const ImageContainer = styled("div", {
   width: "100%",
-  maxWidth: 576,
+  maxWidth: 696,
   height: 656,
   background: "linear-gradient(180deg, #1ea483 0%, #7465d4 100%);",
   borderRadius: 8,

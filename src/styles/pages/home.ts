@@ -1,21 +1,20 @@
-import Link from "next/link";
+import { css } from "@stitches/react";
 import { styled } from "..";
 
 export const HomeContainer = styled("main", {
   display: "flex",
   width: "100%",
-  maxWidth: "calc(100vw - ((100vw - 1080px) / 2))",
-  marginLeft: "auto",
+  maxWidth: "calc(100vw - ((100vw - 1440px)))",
+  marginX: "auto",
   minHeight: 656,
 });
 
-export const Product = styled(Link, {
+export const Product = styled("div", {
   background: "linear-gradient(180deg, #1ea483 0%, #7465d4 100%);",
   borderRadius: 8,
-  cursor: "pointer",
   position: "relative",
   overflow: "hidden",
-  minWidth: 540,
+  minWidth: 696,
 
   display: "flex",
   alignItems: "center",
@@ -52,6 +51,24 @@ export const Product = styled(Link, {
       fontSize: "$xl",
       fontweight: "bold",
       color: "$green300",
+    },
+
+    "& > div:first-child": {
+      display: "flex",
+      flexDirection: "column",
+      gap: "4px",
+    },
+
+    button: {
+      cursor: "pointer",
+      padding: "12px",
+      borderRadius: "6px",
+      border: 0,
+      background: "$green500",
+
+      "&:hover": {
+        background: "$green300",
+      },
     },
   },
 

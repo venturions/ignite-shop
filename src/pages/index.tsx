@@ -10,6 +10,9 @@ import "keen-slider/keen-slider.min.css";
 import { stripe } from "../lib/stripe";
 import { GetStaticProps } from "next";
 import Stripe from "stripe";
+import Arrow from "../components/CarouselArrow";
+import { useState } from "react";
+import { Handbag } from "phosphor-react";
 
 interface HomeProps {
   products: {
@@ -21,7 +24,16 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
-  const [sliderRef] = useKeenSlider({
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [loaded, setLoaded] = useState(false);
+  const [sliderRef, instanceRef] = useKeenSlider({
+    initial: 0,
+    slideChanged(slider) {
+      setCurrentSlide(slider.track.details.rel);
+    },
+    created() {
+      setLoaded(true);
+    },
     slides: {
       perView: 3,
       spacing: 48,
@@ -33,22 +45,58 @@ export default function Home({ products }: HomeProps) {
       <Head>
         <title>Home | Ignite Shop</title>
       </Head>
+
       <HomeContainer ref={sliderRef} className="keen-slider">
-        {products.map((product) => {
+        {products.map((product, index) => {
           return (
             <Product
-              href={`/product/${product.id}`}
               key={product.id}
-              className="keen-slider__slide"
+              className={`keen-slider__slide number-slide${index}`}
             >
               <Image src={product.imageUrl} width={520} height={480} alt="" />
               <footer>
-                <strong>{product.name}</strong>
-                <span>{product.price}</span>
+                <div>
+                  <strong>{product.name}</strong>
+                  <span>{product.price}</span>
+                </div>
+                <button
+                  onClick={() => {
+                    console.log("");
+                  }}
+                >
+                  <Handbag
+                    weight="bold"
+                    color="white"
+                    size={32}
+                    alt="Icone de uma mala, indicando que você pode adicionar o item no carrinho"
+                  />
+                </button>
               </footer>
             </Product>
           );
         })}
+
+        {loaded && instanceRef.current && (
+          <>
+            <Arrow
+              left
+              onClick={(e) =>
+                e.stopPropagation() || instanceRef.current?.prev()
+              }
+              disabled={currentSlide === 0}
+            />
+
+            <Arrow
+              onClick={(e) =>
+                e.stopPropagation() || instanceRef.current?.next()
+              }
+              disabled={
+                currentSlide ===
+                instanceRef.current.track.details.slides.length - 3
+              }
+            />
+          </>
+        )}
       </HomeContainer>
     </>
   );
