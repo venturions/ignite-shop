@@ -1,4 +1,3 @@
-import { css } from "@stitches/react";
 import { styled } from "..";
 
 export const HomeContainer = styled("main", {

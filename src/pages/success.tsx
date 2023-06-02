@@ -32,16 +32,13 @@ export default function Success({ customerName, product }: SuccessProps) {
           Uhuul <strong>{customerName}</strong>, sua
           <strong> {product.name}</strong> já está a caminho da sua casa.
         </p>
-        <Link href="/">Voltar ao catálogo</Link >
+        <Link href="/">Voltar ao catálogo</Link>
       </SuccessContainer>
     </>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({
-  query,
-  params,
-}) => {
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   if (!query.session_id) {
     return {
       redirect: {
