@@ -88,7 +88,7 @@ export default function CartSidebar({
             </CartInfoContainer>
             <button
               onClick={handleBuyProduct}
-              disabled={isCreatingCheckoutSession}
+              disabled={isCreatingCheckoutSession || cartItems.length < 1}
             >
               Finalizar compra
             </button>
