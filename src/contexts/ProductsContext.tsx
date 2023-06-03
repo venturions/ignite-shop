@@ -5,9 +5,11 @@ import { create } from "zustand";
 
 export interface ProductProps {
   id: string;
-  imageUrl: string;
   name: string;
+  imageUrl: string;
   price: string;
+  description: string;
+  defaultPriceId: string;
 }
 
 interface ProductsContextType {
@@ -34,7 +36,7 @@ const formatPrice = (price: number): string => {
   return formattedPrice;
 };
 
-export const useProductsStore = create<ProductsContextType>((set) => ({
+export const useProductsContext = create<ProductsContextType>((set) => ({
   cartItems: [],
   addItemToCart: (product: ProductProps) =>
     set((state) => {

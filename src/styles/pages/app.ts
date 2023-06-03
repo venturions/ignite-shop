@@ -16,6 +16,17 @@ export const Header = styled("header", {
   width: "100%",
   maxWidth: 1440,
   margin: "0 auto",
+
+  variants: {
+    variant: {
+      initial: {
+        justifyContent: "space-between",
+      },
+      finishedOrder: {
+        justifyContent: "center",
+      },
+    },
+  },
 });
 
 export const CartButton = styled("button", {

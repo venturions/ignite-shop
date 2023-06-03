@@ -8,7 +8,11 @@ import {
   SidebarContent,
 } from "./styles";
 import CartItem from "../CartItem";
-import { useProductsStore } from "../../contexts/ProductsContext";
+import { useProductsContext } from "../../contexts/ProductsContext";
+import { useState } from "react";
+import axios from "axios";
+import { enqueueSnackbar } from "notistack";
+import { useRouter } from "next/router";
 
 interface CartSidebarProps {
   openCartSidebar: boolean;
@@ -19,8 +23,38 @@ export default function CartSidebar({
   openCartSidebar,
   handleCloseSidebar,
 }: CartSidebarProps) {
-  const cartItems = useProductsStore((state) => state.cartItems);
-  const cartItemsTotalValue = useProductsStore((state) => state.totalPrice);
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false);
+  const cartItems = useProductsContext((state) => state.cartItems);
+  const cartItemsTotalValue = useProductsContext((state) => state.totalPrice);
+
+  async function handleBuyProduct() {
+    const orderItems = cartItems.map((item) => {
+      return { price: item.defaultPriceId, quantity: 1 };
+    });
+
+    try {
+      setIsCreatingCheckoutSession(true);
+      const response = await axios.post("/api/checkout", {
+        lineItems: orderItems,
+      });
+
+      const { checkoutUrl } = response.data;
+
+      window.location.href = checkoutUrl;
+    } catch (err) {
+      setIsCreatingCheckoutSession(false);
+      enqueueSnackbar("Falha ao redirecionar ao checkout!", {
+        variant: "error",
+      });
+    }
+  }
+
+  const { isFallback } = useRouter();
+
+  if (isFallback) {
+    return <p>Loading</p>;
+  }
 
   return (
     <>
@@ -52,7 +86,12 @@ export default function CartSidebar({
                 <CartSpan type="totalValue">{cartItemsTotalValue}</CartSpan>
               </div>
             </CartInfoContainer>
-            <button>Finalizar compra</button>
+            <button
+              onClick={handleBuyProduct}
+              disabled={isCreatingCheckoutSession}
+            >
+              Finalizar compra
+            </button>
           </div>
         </SidebarContent>
       </SidebarContainer>

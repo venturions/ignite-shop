@@ -1,13 +1,16 @@
 import { CartItemContainer, ImageContainer, ItemInfoContainer } from "./styles";
 import Image from "next/image";
-import { ProductProps, useProductsStore } from "../../contexts/ProductsContext";
+import {
+  ProductProps,
+  useProductsContext,
+} from "../../contexts/ProductsContext";
 
 interface CartItemProps {
   product: ProductProps;
 }
 
 export default function CartItem({ product }: CartItemProps) {
-  const removeItemFromCart = useProductsStore(
+  const removeItemFromCart = useProductsContext(
     (state) => state.removeItemFromCart
   );
 

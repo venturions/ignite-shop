@@ -1,18 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Image from "next/image";
+import Head from "next/head";
 
 import { useKeenSlider } from "keen-slider/react";
 
 import { HomeContainer, Product } from "../styles/pages/home";
-
-import Head from "next/head";
-
-import "keen-slider/keen-slider.min.css";
 import { stripe } from "../lib/stripe";
 import { GetStaticProps } from "next";
 import Stripe from "stripe";
 import Arrow from "../components/CarouselArrow";
 import { Handbag } from "phosphor-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useHeaderContext } from "../contexts/HeaderContext";
+
+import "keen-slider/keen-slider.min.css";
 
 interface HomeProps {
   products: {
@@ -39,6 +40,14 @@ export default function Home({ products }: HomeProps) {
       spacing: 48,
     },
   });
+
+  const changeHeaderVariant = useHeaderContext(
+    (state) => state.changeHeaderVariant
+  );
+
+  useEffect(() => {
+    changeHeaderVariant("initial");
+  }, []);
 
   return (
     <>

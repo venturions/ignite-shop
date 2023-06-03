@@ -10,7 +10,7 @@ import Stripe from "stripe";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Head from "next/head";
-import { useProductsStore } from "../../contexts/ProductsContext";
+import { useProductsContext } from "../../contexts/ProductsContext";
 
 interface ProductProps {
   product: {
@@ -24,12 +24,8 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  // const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-  //   useState(false);
-
-  const addItemToCart = useProductsStore((state) => state.addItemToCart);
-
   const router = useRouter();
+  const addItemToCart = useProductsContext((state) => state.addItemToCart);
 
   const [isRedirecting, setIsRedirecting] = useState(false);
 
@@ -38,28 +34,6 @@ export default function Product({ product }: ProductProps) {
     await addItemToCart(product);
     router.push("/");
   };
-
-  // async function handleBuyProduct() {
-  //   try {
-  //     setIsCreatingCheckoutSession(true);
-  //     const response = await axios.post("/api/checkout", {
-  //       priceId: product.defaultPriceId,
-  //     });
-
-  //     const { checkoutUrl } = response.data;
-
-  //     window.location.href = checkoutUrl;
-  //   } catch (err) {
-  //     setIsCreatingCheckoutSession(false);
-  //     alert("Falha ao redirecionar ao checkout!");
-  //   }
-  // }
-
-  const { isFallback } = useRouter();
-
-  if (isFallback) {
-    return <p>Loading</p>;
-  }
 
   return (
     <>
@@ -85,7 +59,7 @@ export default function Product({ product }: ProductProps) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: [{ params: { id: "prod_NzzjrF6Q49aVlK" } }],
+    paths: [],
     fallback: true,
   };
 };
