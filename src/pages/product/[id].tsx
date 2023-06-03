@@ -38,16 +38,21 @@ export default function Product({ product }: ProductProps) {
   return (
     <>
       <Head>
-        <title>{product.name} | Ignite Shop</title>
+        <title>{product?.name} | Ignite Shop</title>
       </Head>
       <ProductContainer>
         <ImageContainer>
-          <Image src={product.imageUrl} width={520} height={480} alt=""></Image>
+          <Image
+            src={product?.imageUrl}
+            width={520}
+            height={480}
+            alt=""
+          ></Image>
         </ImageContainer>
         <ProductDetails>
-          <h1>{product.name}</h1>
-          <h1>{product.price}</h1>
-          <p>{product.description}</p>
+          <h1>{product?.name}</h1>
+          <h1>{product?.price}</h1>
+          <p>{product?.description}</p>
           <button disabled={isRedirecting} onClick={addItemToCartAndRedirect}>
             Colocar na sacola
           </button>
