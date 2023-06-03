@@ -26,6 +26,10 @@ export default async function handler(
         price: priceId,
         quantity: 1,
       },
+      {
+        price: priceId,
+        quantity: 1,
+      },
     ],
   });
 

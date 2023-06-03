@@ -91,7 +91,7 @@ export const CartItemsContainer = styled("div", {
   padding: "0px",
   gap: "24px",
   marginTop: "2rem",
-  overflowY: "scroll",
+  overflowY: "auto",
   maxHeight: "500px",
 
   "&::-webkit-scrollbar": {

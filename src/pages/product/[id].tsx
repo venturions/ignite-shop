@@ -8,9 +8,9 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { stripe } from "../../lib/stripe";
 import Stripe from "stripe";
 import { useRouter } from "next/router";
-import axios from "axios";
 import { useState } from "react";
 import Head from "next/head";
+import { useProductsStore } from "../../contexts/ProductsContext";
 
 interface ProductProps {
   product: {
@@ -24,24 +24,36 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-    useState(false);
+  // const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+  //   useState(false);
 
-  async function handleBuyProduct() {
-    try {
-      setIsCreatingCheckoutSession(true);
-      const response = await axios.post("/api/checkout", {
-        priceId: product.defaultPriceId,
-      });
+  const addItemToCart = useProductsStore((state) => state.addItemToCart);
 
-      const { checkoutUrl } = response.data;
+  const router = useRouter();
 
-      window.location.href = checkoutUrl;
-    } catch (err) {
-      setIsCreatingCheckoutSession(false);
-      alert("Falha ao redirecionar ao checkout!");
-    }
-  }
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
+  const addItemToCartAndRedirect = async () => {
+    setIsRedirecting(true);
+    await addItemToCart(product);
+    router.push("/");
+  };
+
+  // async function handleBuyProduct() {
+  //   try {
+  //     setIsCreatingCheckoutSession(true);
+  //     const response = await axios.post("/api/checkout", {
+  //       priceId: product.defaultPriceId,
+  //     });
+
+  //     const { checkoutUrl } = response.data;
+
+  //     window.location.href = checkoutUrl;
+  //   } catch (err) {
+  //     setIsCreatingCheckoutSession(false);
+  //     alert("Falha ao redirecionar ao checkout!");
+  //   }
+  // }
 
   const { isFallback } = useRouter();
 
@@ -62,10 +74,7 @@ export default function Product({ product }: ProductProps) {
           <h1>{product.name}</h1>
           <h1>{product.price}</h1>
           <p>{product.description}</p>
-          <button
-            disabled={isCreatingCheckoutSession}
-            onClick={handleBuyProduct}
-          >
+          <button disabled={isRedirecting} onClick={addItemToCartAndRedirect}>
             Colocar na sacola
           </button>
         </ProductDetails>

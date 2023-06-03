@@ -8,6 +8,7 @@ import {
   SidebarContent,
 } from "./styles";
 import CartItem from "../CartItem";
+import { useProductsStore } from "../../contexts/ProductsContext";
 
 interface CartSidebarProps {
   openCartSidebar: boolean;
@@ -18,6 +19,9 @@ export default function CartSidebar({
   openCartSidebar,
   handleCloseSidebar,
 }: CartSidebarProps) {
+  const cartItems = useProductsStore((state) => state.cartItems);
+  const cartItemsTotalValue = useProductsStore((state) => state.totalPrice);
+
   return (
     <>
       <SidebarContainer openCartSidebar={openCartSidebar}>
@@ -30,11 +34,10 @@ export default function CartSidebar({
           <div>
             <h1>Sacola de compras</h1>
             <CartItemsContainer>
-              <CartItem />
-              <CartItem />
-              <CartItem />
-              <CartItem />
-              <CartItem />
+              {cartItems.length > 0 &&
+                cartItems.map((product) => (
+                  <CartItem key={product.id} product={product} />
+                ))}
             </CartItemsContainer>
           </div>
 
@@ -42,11 +45,11 @@ export default function CartSidebar({
             <CartInfoContainer>
               <div>
                 <CartLabel type="quantity">Quantidade</CartLabel>
-                <CartSpan type="quantity">3 itens</CartSpan>
+                <CartSpan type="quantity">{cartItems.length} itens</CartSpan>
               </div>
               <div>
                 <CartLabel type="totalValue">Valor total</CartLabel>
-                <CartSpan type="totalValue">R$ 270,00</CartSpan>
+                <CartSpan type="totalValue">{cartItemsTotalValue}</CartSpan>
               </div>
             </CartInfoContainer>
             <button>Finalizar compra</button>

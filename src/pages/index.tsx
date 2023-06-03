@@ -11,8 +11,8 @@ import { stripe } from "../lib/stripe";
 import { GetStaticProps } from "next";
 import Stripe from "stripe";
 import Arrow from "../components/CarouselArrow";
-import { useState } from "react";
 import { Handbag } from "phosphor-react";
+import { useState } from "react";
 
 interface HomeProps {
   products: {
@@ -50,6 +50,7 @@ export default function Home({ products }: HomeProps) {
         {products.map((product, index) => {
           return (
             <Product
+              href={`/product/${product.id}`}
               key={product.id}
               className={`keen-slider__slide number-slide${index}`}
             >
@@ -59,11 +60,7 @@ export default function Home({ products }: HomeProps) {
                   <strong>{product.name}</strong>
                   <span>{product.price}</span>
                 </div>
-                <button
-                  onClick={() => {
-                    console.log("");
-                  }}
-                >
+                <button>
                   <Handbag
                     weight="bold"
                     color="white"

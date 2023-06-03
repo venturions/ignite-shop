@@ -1,20 +1,33 @@
 import { CartItemContainer, ImageContainer, ItemInfoContainer } from "./styles";
 import Image from "next/image";
+import { ProductProps, useProductsStore } from "../../contexts/ProductsContext";
 
-import camiseta1 from "../../assets/camisetas/2.png";
+interface CartItemProps {
+  product: ProductProps;
+}
 
-export default function CartItem() {
+export default function CartItem({ product }: CartItemProps) {
+  const removeItemFromCart = useProductsStore(
+    (state) => state.removeItemFromCart
+  );
+
   return (
     <CartItemContainer>
       <ImageContainer>
-        <Image src={camiseta1} alt={""} width={95} height={95} />
+        <Image src={product.imageUrl} alt={""} width={95} height={95} />
       </ImageContainer>
       <ItemInfoContainer>
         <div>
-          <label>Camiseta Beyond the Limits</label>
-          <span>R$ 79,90</span>
+          <label>{product.name}</label>
+          <span>{product.price}</span>
         </div>
-        <button>Remover</button>
+        <button
+          onClick={() => {
+            removeItemFromCart(product.id);
+          }}
+        >
+          Remover
+        </button>
       </ItemInfoContainer>
     </CartItemContainer>
   );
