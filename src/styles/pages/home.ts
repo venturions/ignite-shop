@@ -21,6 +21,8 @@ export const Product = styled(Link, {
   justifyContent: "center",
 
   img: {
+    width: "auto",
+    height: "auto",
     objectFit: "cover",
   },
 
